@@ -1,0 +1,2 @@
+class Registr:
+    pass
