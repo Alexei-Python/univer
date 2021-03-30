@@ -1,14 +1,14 @@
-import pymysql
 import pymysql.cursors
 
-connect = pymysql.connect(
+class Connection:
+    connect = pymysql.connect(
                           host = 'localhost',\
                           user = 'stanok',\
                           password = 'cnfyjr11101984',\
                           database = 'stanok',\
                           cursorclass = pymysql.cursors.DictCursor)
 
-cursor = connect.cursor()
+    cursor = connect.cursor()
 
 
 #sql = 'SELECT * FROM people'
