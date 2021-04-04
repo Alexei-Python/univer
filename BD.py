@@ -1,4 +1,5 @@
-import pymysql.cursors
+import pymysql
+from pymysql.cursors import DictCursor
 
 class Connection:
     connect = pymysql.connect(
@@ -10,7 +11,7 @@ class Connection:
 
     cursor = connect.cursor()
 
-
+"INSERT INTO progress (login,course,fuckulty) SELECT login,course,fuckulty FROM people"
 #sql = 'SELECT * FROM people'
 #cursor.execute(sql)
 #data = cursor.fetchall()
