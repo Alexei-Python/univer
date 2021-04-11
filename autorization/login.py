@@ -12,16 +12,14 @@ connect = pymysql.connect(
 cursor = connect.cursor()
 
 
-def enter():
-    login = input('Введите логин:')
-    password = input('Введите пароль:')
-    password = password[::-1]
-    user = {'login': login, 'password': int(password)}
-    sql = "SELECT login, password FROM people"
-    cursor.execute(sql)
-    person = cursor.fetchall()
-    if user in person:
-        print('ok')
+def teacher():
+    menu = input('Для просмотра информации введите 1, для редактирования 2, для выхода ПРОБЕЛ:')
+    if menu == '1':
+        if menu == '1':
+            sql = "SELECT*FROM progress WHERE login = %s"
+            data = [input('Введите логин ученика:')]
+            cursor.execute(sql, data)
+            resultat = cursor.fetchall()
+            print(resultat)
 
-
-enter()
+teacher()
