@@ -1,6 +1,7 @@
 import pymysql
-from pymysql.cursors import DictCursor
 import sqlbase
+from pymysql.cursors import DictCursor
+from sqlbase import Sqltext
 
 connect = pymysql.connect(
                           host = 'localhost',\
@@ -15,7 +16,7 @@ cursor = connect.cursor()
 
 def start():
     while True:
-        menu = input("Введите '1' для зарегистрации или '2' для входа:")
+        menu = input("Введите '1' для регистрации или '2' для входа:")
         if menu == '1':
             log()
             break
@@ -33,7 +34,8 @@ def log():
     year = input('Введите курс:')
     floor = input('Введите ваш пол male/female:')
     data = [login, password, 0, fuck, year, floor]
-    sqlbase.log_sql(data)
+    data_p = [login, year, fuck]
+    Sqltext.log_sql(data, data_p)
     print('Вы успешно зарегестрированы. Войдите в систему')
     start()
 
@@ -43,15 +45,12 @@ def enter():
         password = input('Введите пароль:')
         password = password[::-1]
         user = {'login': login, 'password': password}
-        sqlbase.enter_pers(persons)
-        person = persons
-        if user in person:
-            sql = "SELECT status FROM people WHERE login = %s"
-            cursor.execute(sql, login)
-            stat = cursor.fetchall()
+        persons = sqlbase.Sqltext.enter_pers()
+        if user in persons:
+            stat = sqlbase.Sqltext.enter_stat(login)
             for element in stat:
                 if element['status'] == '1':
-                    print('welcome, ser!')
+                    print('Welcome, Sir!')
                     teacher()
                 else:
                     student(login)
@@ -63,11 +62,7 @@ def enter():
 def student(login):
     menu = input('Для просмотра информации введите 1. Для выхода нажмите ПРОБЕЛ: ')
     if menu == '1':
-        sql = "SELECT*FROM progress WHERE login = %s"
-        data = [login]
-        cursor.execute(sql, login)
-        resultat = cursor.fetchall()
-        print(resultat)
+        sqlbase.Sqltext.student_look(login)
     elif menu == ' ':
         start()
     else:
@@ -78,28 +73,50 @@ def student(login):
 def teacher():
     menu = input('Для просмотра информации введите 1, для редактирования 2, для выхода ПРОБЕЛ:')
     if menu == '1':
-        teacher_look(login)
-        print(resultat)
+        sqlbase.Sqltext.teacher_look()
+        teacher()
     elif menu == '2':
+        teacher_edit()
+    elif menu == ' ':
+        start()
+    else:
+        print('Ошибка в выборе')
+        teacher()
+
+def teacher_edit():
         while True:
-            teacher_look(login)
-            print(resultat)
+            login = sqlbase.Sqltext.teacher_look()
             chage = input('Для редактирования оценки или курса введите 1 - математика, 2 - физика, 3 - пайтон, 4 - язык,'
-                          '5 - курс, для выхода нажмите ПРОБЕЛ:')
+                          '5 - курс, 6 - статус. для выхода нажмите ПРОБЕЛ:')
             if chage == '1':
-                sqlbase.teacher_math(login)
+                sqlbase.Sqltext.teacher_math(login)
+                print('Оценка по математике изменена.')
+                teacher_edit()
             elif chage == '2':
-                sqlbase.teacher_physic(login)
+                sqlbase.Sqltext.teacher_physic(login)
+                print('Оценка по физике изменена.')
+                teacher_edit()
             elif chage == '3':
-                sqlbase.teacher_python(login)
+                sqlbase.Sqltext.teacher_python(login)
+                print('Оценка по Пайтону изменена.')
+                teacher_edit()
             elif chage == '4':
-                sqlbase.teacher_lang(login)
+                sqlbase.Sqltext.teacher_lang(login)
+                print('Оценка по языку изменена.')
+                teacher_edit()
             elif chage == '5':
-                sqlbase.teacher_course(login)
+                sqlbase.Sqltext.teacher_course(login)
+                print('Ученик переведен на другой курс.')
+                teacher_edit()
+            elif chage == '6':
+                sqlbase.Sqltext.teacher_status(login)
+                print('В нашей семье пополненилось.')
+                teacher_edit()
             elif chage == ' ':
                 teacher()
             else:
                 print('Повторите ввод.')
+                teacher_edit()
 
 
 start()

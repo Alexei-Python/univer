@@ -6,9 +6,8 @@ CREATE TABLE people (
     course INT(6),
     fuckulty VARCHAR(30),
     sex VARCHAR(7),
-    password INT(10),
-    PRIMARY KEY(ID),
-    UNIQUE(login,password)
+    password VARCHAR(10),
+    PRIMARY KEY(ID)
     );
 CREATE TABLE progress (
     login VARCHAR(20),
