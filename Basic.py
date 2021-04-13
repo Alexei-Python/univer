@@ -3,16 +3,6 @@ import sqlbase
 from pymysql.cursors import DictCursor
 from sqlbase import Sqltext
 
-connect = pymysql.connect(
-                          host = 'localhost',\
-                          user = 'stanok',\
-                          password = 'cnfyjr11101984',\
-                          database = 'stanok',\
-                          cursorclass = pymysql.cursors.DictCursor)
-
-cursor = connect.cursor()
-
-
 
 def start():
     while True:
@@ -110,13 +100,12 @@ def teacher_edit():
             teacher_edit()
         elif chage == '6':
             sqlbase.Sqltext.teacher_status(login)
-            print('В нашей семье пополненилось.')
+            print('Статус успешно изменен.')
             teacher_edit()
         elif chage == ' ':
             teacher()
         else:
             print('Повторите ввод.')
             teacher_edit()
-
 
 start()

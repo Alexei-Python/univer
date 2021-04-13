@@ -76,7 +76,7 @@ class Sqltext:
         while True:
             sql = "UPDATE people SET status = %s WHERE login LIKE %s"
             data = [input('Введите значение 0 - студент, 1 - преподаватель:')]
-            if data != ['1'] or ['2']:
+            if data != ['1'] or ['0']:
                 print('Ошибочка')
             else:
                 break
