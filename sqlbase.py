@@ -27,9 +27,9 @@ class Sqltext:
         return persons
 
 
-    def enter_stat(login):
+    def enter_stat(name):
         sql = "SELECT status FROM people WHERE login = %s"
-        cursor.execute(sql, login)
+        cursor.execute(sql, name)
         stat = cursor.fetchall()
         return stat
 
@@ -42,46 +42,47 @@ class Sqltext:
         return login
 
     def teacher_math(login):
-        sql = "UPDATE progress SET math = %s WHERE login LIKE %s"
+        sql = "UPDATE progress SET math = %s WHERE login = %s"
         data = [input('Введите значение:')]
-        cursor.execute(sql, data, login)
+        print(login,data)
+        cursor.execute(sql, (data, login))
         connect.commit()
 
     def teacher_physic(login):
         sql = "UPDATE progress SET physic = %s WHERE login LIKE %s"
         data = [input('Введите значение:')]
-        cursor.execute(sql, data, login)
+        cursor.execute(sql, (data, login))
         connect.commit()
 
     def teacher_python(login):
         sql = "UPDATE progress SET python = %s WHERE login LIKE %s"
         data = [input('Введите значение:')]
-        cursor.execute(sql, data, login)
+        cursor.execute(sql, (data, login))
         connect.commit()
 
     def teacher_lang(login):
         sql = "UPDATE progress SET lang = %s WHERE login LIKE %s"
         data = [input('Введите значение:')]
-        cursor.execute(sql, data, login)
+        cursor.execute(sql, (data, login))
         connect.commit()
 
     def teacher_course(login):
         sql = "UPDATE progress SET course = %s WHERE login LIKE %s"
         data = [input('Введите значение:')]
-        cursor.execute(sql, data, login)
+        cursor.execute(sql, (data, login))
         connect.commit()
 
     def teacher_status(login):
         while True:
             sql = "UPDATE people SET status = %s WHERE login LIKE %s"
             data = [input('Введите значение 0 - студент, 1 - преподаватель:')]
-            if data == '1' or '2':
-                continue
+            if data != ['1'] or ['2']:
+                print('Ошибочка')
             else:
-                print('Ошибочка.')
-                teacher_status()
-            cursor.execute(sql, data, login)
+                break
+            cursor.execute(sql, (data, login))
             connect.commit()
+
 
     def student_look(login):
         sql = "SELECT*FROM progress WHERE login = %s"
