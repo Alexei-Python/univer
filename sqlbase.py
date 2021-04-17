@@ -11,6 +11,7 @@ connect = pymysql.connect(
 
 cursor = connect.cursor()
 
+
 class Sqltext:
     def log_sql(data, data_p):
         sql = "INSERT INTO people (login, password, status, fuckulty, course, sex) VALUES(%s, %s, %s, %s, %s, %s)"
@@ -26,7 +27,6 @@ class Sqltext:
         persons = cursor.fetchall()
         return persons
 
-
     def enter_stat(name):
         sql = "SELECT status FROM people WHERE login = %s"
         cursor.execute(sql, name)
@@ -38,7 +38,12 @@ class Sqltext:
         login = [input('Введите логин ученика:')]
         cursor.execute(sql, login)
         resultat = cursor.fetchall()
-        print(resultat)
+        for pers in resultat:
+            print('Имя:', pers['login'], '\n' 'Курс:', pers['course'], '\n' 'Факультет:', pers['fuckulty'],
+                  '\n' 'Физика:', pers['physic'], '\n' 'Математика:', pers['math'], '\n' 'Пайтон:',
+                  pers['python'], '\n' 'Язык:', pers['lang'],
+                  '\n' 'Средний бал:', (float(pers['physic']) + float(pers['math']) +
+                                        float(pers['python']) + float(pers['lang'])) / 4)
         return login
 
     def teacher_math(login):
@@ -83,10 +88,14 @@ class Sqltext:
             cursor.execute(sql, (data, login))
             connect.commit()
 
-
-    def student_look(login):
+    def student_look(name):
         sql = "SELECT*FROM progress WHERE login = %s"
-        data = [login]
+        data = [name]
         cursor.execute(sql, data)
-        resultat = cursor.fetchall()
-        print(resultat)
+        result = cursor.fetchall()
+        for pers in result:
+            print('Имя:', pers['login'], '\n' 'Курс:', pers['course'], '\n' 'Факультет:', pers['fuckulty'],
+                  '\n' 'Физика:', pers['physic'], '\n' 'Математика:', pers['math'], '\n' 'Пайтон:',
+                  pers['python'], '\n' 'Язык:', pers['lang'],
+                  '\n' 'Средний бал:', (float(pers['physic']) + float(pers['math']) +
+                  float(pers['python']) + float(pers['lang']))/4)

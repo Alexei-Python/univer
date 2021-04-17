@@ -16,6 +16,7 @@ def start():
         else:
             print('Повторите попытку.')
 
+
 def log():
     name = input('Введите логин (максимум 20 символов):')
     password = input('Введите пароль (максимум 10 знаков):')
@@ -28,6 +29,7 @@ def log():
     Sqltext.log_sql(data, data_p)
     print('Вы успешно зарегестрированы. Войдите в систему')
     start()
+
 
 def enter():
     while True:
@@ -76,7 +78,7 @@ def teacher():
 def teacher_edit():
     login = sqlbase.Sqltext.teacher_look()
     while True:
-        chage = input('Для редактирования оценки или курса введите 1 - математика, 2 - физика, 3 - пайтон, 4 - язык,'
+        chage = input('Для редактирования введите 1 - математика, 2 - физика, 3 - пайтон, 4 - язык,'
                       '5 - курс, 6 - статус. для выхода нажмите ПРОБЕЛ:')
         if chage == '1':
             sqlbase.Sqltext.teacher_math(login)
